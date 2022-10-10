@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Raleway:wght@300&display=swap');
+
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    border: 0px;
+    background-color: #000;
+
+}
+
+.menu {
+    position: fixed;
+    width: 100%;
+    height: 8%;
+    display: flex;
+    background-color: #000;
+    opacity: 96%;
+
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    font-size: 90%;
+    letter-spacing: 0.3vw;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 100;
+}
+
+.menu a {
+    width: 10%;
+    margin-left: 5%;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+
+    color: white;
+}
+
+.logo_name {
+    width: 10%;
+    justify-content: flex-start;
+}
+
+.logo_name a:hover {
+    color: #f54b64;
+    cursor: pointer;
+}
+
+.menu_list {
+    margin: 0;
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    list-style: none;
+    padding-left: 5%;
+}
+
+.menu_list li {
+    width: 15%;
+}
+
+.menu_list li:hover {
+    color: #f54b64;
+    cursor: pointer;
+}
+
+.buttons_index {
+    width: 25%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 130%;
+}
+
+.buttons_index:hover {
+    color: #f54b64;
+    cursor: pointer;
+}
+
+
+
+.home_index {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-color: #000;
+    opacity: 99%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.group1 {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    overflow: hidden;
+    font-family: 'Popins', sans-serif;
+}
+
+.group1::after {
+    content: url('../static/background.png');
+    position: absolute;
+    transform: translate(1%);
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 40%;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+}
+.ligth{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle at 100% 100%, transparent 10%, rgba(0,0,0,0.95) 20%);
+}
+
+.text_title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin-top: 5%;
+
+    font-size: 3vw;
+    letter-spacing: 3vw;
+}
+
+.text_title .tt_1 {
+    color: white;
+    opacity: 70%;
+    z-index: 2;
+}
+
+.text_title .tt_2 {
+    color: #f54b64;
+    transform: translate(1%, -92%);
+    opacity: 50%;
+    z-index: 1;
+}
+
+.img_fundo {
+    width: 90%;
+    opacity: 50%;
+    z-index: -2;
+}
