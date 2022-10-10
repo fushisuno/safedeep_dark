@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{% block content %}
+
+<main class="safety_main">
+    <div class="text_safety">
+        <h3>Segurança da Informação</h3>
+        <p>Nunc non vestibulum orci, non rutrum massa. Nulla facilisi. Vestibulum rhoncus venenatis sem. Mauris a mollis quam, eu accumsan ligula. Vivamus hendrerit rutrum imperdiet. Praesent imperdiet augue ut velit ultrices imperdiet. Duis lobortis finibus quam. In ac nulla nulla. Maecenas at enim justo. Praesent euismod lacus urna, lacinia efficitur enim feugiat a. Morbi ac lorem dapibus, fringilla lectus sit amet, pretium turpis. Etiam finibus tincidunt arcu, sit amet tristique risus venenatis et. Donec commodo est vitae massa lobortis, sit amet volutpat purus finibus. Aliquam et porttitor mauris. Nulla ullamcorper magna at libero porttitor, id molestie libero malesuada. Aenean id pulvinar justo.</p>
+    </div>
+    <div class="pilares_seg">
+        <div class="container">
+            <img src="{{ url_for('static', filename='../static/img/dragon_E.png')}}" alt="" class="dragon_img dg_1">
+            <div class="card"><h1>Sua Mae</h1></div>
+
+        </div>
+        <div class="container">
+            <img src="{{ url_for('static', filename='../static/img/dragon_E.png')}}" alt="" class="dragon_img dg_2">
+            <div class="card"><h1>Sua Mae</h1></div>
+        </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
