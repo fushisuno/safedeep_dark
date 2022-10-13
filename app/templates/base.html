@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/style.css')}}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>Safe</title>
+</head>
+
+<body>
+    <header class="menu">
+        <div class="logo_name">
+            <a href="/">Safe</a>
+        </div>
+
+        <ul class="menu_list">
+            <li class="item"><a href="/">Home</a></li>
+            <li class="item"><a href="/safety">Safety</a></li>
+            <li class="item"><a href="#">Tools</a></li>
+            <li class="item"><a href="#">Fishy</a></li>
+        </ul>
+        <div class="buttons_index">
+            <a class="uil uil-user"></a>
+            <a class="uil uil-bug"></a>
+
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

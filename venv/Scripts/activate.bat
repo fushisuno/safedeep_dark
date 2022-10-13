@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set VIRTUAL_ENV=C:\Users\K-2SO\Documents\safedeep_dark\venv
+=======
+set VIRTUAL_ENV=C:\Users\Tobi\Documents\Pfc\safe\venv
+>>>>>>> 0c52b94 (Commit Inicial)
 
 if not defined PROMPT set PROMPT=$P$G
 
