@@ -33,6 +33,7 @@
     --font-text-card-btn: 11px;
 
     --font-card-tols-title: 25px;
+    --font-card-tools-txt: 12px;
 
 
     --input_heigth: 50px;
@@ -371,13 +372,13 @@ a:hover {
     flex-wrap: wrap;
 }
 .text_card_hed_fishys .text_tip_card h5{
-    font-size: 0.7vw !important;
+    font-size: var(--font-card-tools-txt) !important;
 }
 .text_card_hed_fishys .text_tip_card h6{
-    font-size: 0.6vw !important;
+    font-size: var(--font-card-tools-txt) !important;
 }
 .text_card_hed_fishys .text_tip_card a{
-    font-size: 0.6vw !important;
+    font-size: var(--font-card-tools-txt) !important;
 }
 .bottom_card_fishys {
     width: 90%;
@@ -387,13 +388,13 @@ a:hover {
 }
 .bottom_card_fishys p{
     width: 100%;
-    font-size: 0.9vw;
+    font-size: var(--font_text-normal);
 }
 .bottom_card_fishys h3{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1vw;
+    font-size: var(--font_button);
 }
 .it_bot{
     width: 90%;
@@ -405,7 +406,12 @@ a:hover {
     display: flex;
     margin-left: 93%;
     align-items: center;
-    font-size: 1.4vw;
+    color: var(--color_black);
+    font-size: var(--font-card-tols-title);
+}
+.it_bot a:hover{
+    color: var(--font-color-al_blue);
+    cursor: pointer;
 }
 /*           */
 
