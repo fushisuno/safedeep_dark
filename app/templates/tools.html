@@ -1,0 +1,34 @@
+{% extends "base.html"%}
+{% block content %}
+<main class="tools_main">
+    <div class="tools_container">
+        <div class="tools_title">
+            <h1 class="tit_h1">Ferramentas</h1>
+        </div>
+        <div class="tools_supercard">
+            {% for tip_tol in tools %}
+            <h1 class="tit_tools" id="{{ tip_tol['Class_id'] }}">Ferramenta {{ tip_tol["Tipo_tool"] }}</h1>
+            <section class="cards_tools"> 
+                {% for toolss in tip_tol["Valor"] %}
+                <div class="card_tools">
+                    <div class="card_top_tools">
+                        <h2 class="title_card_tool">{{ toolss["Nome"] }}</h2>
+                        <p class="titlesecond_card_tool">{{ toolss["Tipo"] }}</p>
+                    </div>
+                    <div class="{{ toolss['Media_img'] }} med_img"></div>
+
+                    <div class="bottom_card_tools">
+                        <p class="bottom_desc_tool">{{ toolss["Descricao"] }}</p>
+                        <div class="item_card_bottom">
+                            <a href=""><button class="card_bottom_action_buttom">Ver Mais</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html"%}
+{% block content %}
+
+<main class="form_main">
+    <section class="main_container">
+        <div class="main_title">
+            <h1>Sign Up</h1>
+        </div>
+        <form action="/cadastro" method="post">
+            <div class="main_inputs">
+                <input type="text"  name="user_name" placeholder="Nome de usuário" required>
+                <input type="email"  name="user_email" placeholder="Digite seu e-mail" required>
+                <div class="input_pass">
+                    <input type="password" name="user_password" placeholder="Digite sua senha" required>
+                    <i class="uil uil-eye"></i>
+                </div>
+                <div class="input_pass">
+                    <input type="password" name="confirmed_password" placeholder="Confirme sua senha" required>
+                    <i class="uil uil-eye"></i>
+                </div>
+
+                <input type="submit" value="Entrar" class="btn_input">
+
+                <p class="cad_text_repass">Já tem conta? <a href="/login" class="login_repass">Faça login aqui</a></p>
+            </div>
+        </form>
+    </section>
+</main>
+{% endblock %}

@@ -1,5 +1,6 @@
 from random import randint, random
 from flask import *
+from jinja2 import Environment
 
 import pyrebase
 import re
@@ -38,6 +39,109 @@ def home():
 def safety():
     pagin = "safety"
     return render_template("safety.html", pagin = pagin)
+
+
+
+@app.route("/")
+@app.route("/tools")
+@app.route("/tools/")
+def tools():
+    pagin = "tools"
+    tools = list()
+    lista_tool = list()
+    usersAll = db.child("ferramentas").child("antimalware").get()
+    for ferramenta in usersAll.each():
+        tool = ferramenta.val()
+        dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"])}
+        lista_tool.append(dict_tools)
+    dic_tip = {"Tipo_tool": " Anti-Malware", "Valor": lista_tool, "Class_id": "malware"}
+    tools.append(dic_tip)
+
+    lista_tool = list()
+    usersAll = db.child("ferramentas").child("antivirus").get()
+    for ferramenta in usersAll.each():
+        tool = ferramenta.val()
+        dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"])}
+        lista_tool.append(dict_tools)
+    dic_tip = {"Tipo_tool": " Anti-virus", "Valor": lista_tool, "Class_id": "antivirus"}
+    tools.append(dic_tip)
+
+    return render_template("tools.html", tools = tools, pagin=pagin)
+
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    try:
+        camps = {"email": "", "pass":""}
+        if request.method == 'POST':
+            name = request.form["user_email"]
+            password = request.form['password']
+            try:
+                auth.sign_in_with_email_and_password(name, password)
+                session["user_name"] = request.form["user_email"]
+                return redirect("/")
+            except:
+                session["user_name"] = None
+                camps['email'] = "camp_invalid"
+                session["name"] = None
+                camps['pass'] = "camp_invalid"
+            
+                return render_template("login.html", camps=camps)
+
+        return render_template("login.html", camps=camps)
+    except:
+        return "Error"
+
+
+
+@app.route("/cadastro", methods=['GET', 'POST'])
+def cadastro():
+    try:
+        confirmed = 0
+        camps = {"name": "", "email": "", "pass":"", "pass_conf" : ""}
+        if request.method == 'POST':
+            user_name = "" + request.form["user_name"]
+            user_email = "" + request.form["user_email"]
+            user_password = "" + request.form["user_password"]
+            user_confirmed_pass = "" + request.form["confirmed_password"]
+            dados = { "Nome": request.form["user_name"], "Email": request.form["user_email"]}
+            if len(user_name) < 4:
+                camps['name'] = "camp_invalid"
+            else:
+                camps['name'] = "camp_sucess"
+                confirmed += 1
+
+            if user_password != user_confirmed_pass:
+                camps['pass'] = "camp_invalid"
+                camps['pass_conf'] = "camp_invalid"
+            else:
+                confirmed += 2
+            
+            if(re.search(regex, user_email)):  
+                camps['email'] = "camp_sucess"
+                confirmed += 1
+            else:
+                camps['email'] = "camp_invalid"
+
+            
+            if confirmed >= 4:
+                if user_password == user_confirmed_pass:
+                    try:
+                        auth.create_user_with_email_and_password(user_email, user_password)
+                        id_us = db.generate_key()
+                        print("criou")
+                        db.child("users").child(id_us).set(dados)
+                        db.child("users").child(id_us).child("denuncias_curtidas").set("")
+
+                    except:
+                        return redirect('/login')
+                    return redirect("/login")
+
+        return render_template("cadastro.html", camps = camps)
+    except:
+        return "Error"
+
 
 if __name__ == '__main__':
     app.run(debug=True)
