@@ -70,6 +70,71 @@ def tools():
 
 
 
+
+@app.route("/fishys")
+def fishys():
+    users = list()
+    denun = list()
+    usersFish = db.child("denuncias").get()
+    usersAll = db.child("users").get()
+    for i in usersAll.each():
+        user = i.val()
+        user_valid = user['Email']
+        try:
+            if user_valid == session["user_name"]:
+                den = db.child("users").child(i.key()).child("denuncias_curtidas").get()
+                qtd_den = den.val()
+                if qtd_den != None:
+                    for fishy_den in den.each():
+                        nun = fishy_den.key()
+                        denun.append(nun)
+        except:
+            denun = list()
+
+    for i in usersFish.each():
+        user = i.val()
+        liked_fh = False
+        if len(denun) > 0:
+            if i.key() in denun:
+                liked_fh = True
+        if user['opcao'] == "invasor": 
+            dict_user = {"Nome": user['nome'], "Tipo": user['opcao'], "Nome_invasor": user['invasor'], "Descricao": user['descricao'], "ID_Fishy": "" + i.key()}
+        else:
+            dict_user = {"Nome": user['nome'], "Tipo": user['opcao'], "Url": user['url_site'], "Descricao": user['descricao'], "ID_Fishy": "" + i.key()}
+        dict_user["Fishy_liked"] = liked_fh
+        users.append(dict_user)
+    
+    return render_template("fishys.html", users = users)
+
+@app.route("/fishys/add/<id_den>")
+def fishy_liked(id_den):
+    id_fishys_liked = {}
+    usersAll = db.child("users").get()
+    for i in usersAll.each():
+        user = i.val()
+        user_valid = user['Email']
+        if user_valid == session['user_name']:
+            id_fishys_liked = {"Id": str(id_den)}
+            db.child("users").child(i.key()).child("denuncias_curtidas").child(id_den).set("Liked")
+            return redirect("/fishys")
+    return redirect("/login")
+
+
+@app.route("/fishys/del/<id_den>")
+def fishy_deleted(id_den):
+    usersAll = db.child("users").get()
+    for i in usersAll.each():
+        user = i.val()
+        user_valid = user['Email']
+        if user_valid == session['user_name']:
+            db.child("users").child(i.key()).child("denuncias_curtidas").child(id_den).remove()
+            return redirect("/fishys")
+    return redirect("/login")
+
+
+
+
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     try:

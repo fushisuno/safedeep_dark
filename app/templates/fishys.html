@@ -1,0 +1,47 @@
+{% extends "base.html"%}
+{% block content %}
+<header></header>
+<main class="fishys_main">
+    <div class="hed_fishys">
+        <div class="title_fishy">
+            <h1 class="title_safety_txt  tit_h1">Denuncia</h1>
+        </div>
+        <section class="cards_fishy">
+            {% for user in users %}
+            <div class="card_fishys">
+                <div class="hed_card_fishys">
+                    <img src="{{ url_for('static', filename='./img/personoid_fishys.png')}}" alt="profile_fihsys"
+                        class="personoid_card">
+                    <div class="text_card_hed_fishys">
+                        <h1 class="title_hed_card">{{ user["Nome"] }}</h1>
+
+                        <div class="text_tip_card">
+                            <h5>Tipo: {{ user["Tipo"] }}</h5>
+                            {% if user["Tipo"] == "invasor" %}
+                            <h5>Nome Invasor: {{ user["Nome_invasor"] }}</h5>
+                            {% else %}
+                            <h5>URL:</h5>
+                            <h6>{{ user["Url"] }}</h6>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom_card_fishys">
+                    <h3>Descrição </h3>
+                    <p class="card_bottom_text">{{ user["Descricao"] }}</p>
+
+                </div>
+                <div class="it_bot">
+                    {% if user['Fishy_liked'] == True %}
+                    <a href="/fishys/del/{{ user['ID_Fishy'] }}" class="uil uil-thumbs-up star"></a>
+                    {% else %}
+                    <a href="/fishys/add/{{ user['ID_Fishy'] }}" class="uil uil-star star"></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</main>
+{% endblock %}

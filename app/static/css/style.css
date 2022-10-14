@@ -26,10 +26,13 @@
     --font_title_spacing: 15px;
     --font_text-normal: 14px;
     --font_button: 20px;
+
     --font-text-card-title: 15px;
     --font-text-card-title-spacing: 1.5px;
     --font-text-card-title_second: 13px;
     --font-text-card-btn: 11px;
+
+    --font-card-tols-title: 25px;
 
 
     --input_heigth: 50px;
@@ -279,164 +282,142 @@ a:hover {
 /*               */
 
 
-/* Login  container */
-.form_main {
+/* Fishy */
+
+
+
+.fishys_main {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transform: translate(0px, 10%);
-
-    background-image: url("../img/bg_login_white_80.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+    height: 100%;
+    transform: translate(0%, 10vh);
 }
 
-.form_main .main_container {
-    width: 35%;
-    margin-left: 40%;
-    border-radius: 5%;
-    margin-top: -3%;
-
+.hed_fishys {
+    width: 90%;
     display: flex;
-    justify-content: left;
-    align-items: center;
     flex-direction: column;
-    background: var(--font_color_ligth_80);
-    z-index: 3;
-}
+    flex-wrap: wrap;
 
-.main_container .main_title {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 10%;
-    justify-content: center;
-    align-items: center;
+    margin-left: 5%;
     font-family: var(--font);
+
 }
-
-.main_container form {
-    width: 90%;
-    margin-top: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
-
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    flex-direction: column;
-}
-
-.main_container .main_inputs {
+.title_fishy {
     width: 100%;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
-    flex-direction: column;
 
-    margin-bottom: 10%;
+    font-family: var(--font);
+    font-size: var(--font_button);
+    color: var(--font_color_ligth);
+    letter-spacing: var(--font_menu_pc_spacing);
 }
 
-.main_container .main_inputs input {
-    width: 90%;
-    height: var(--input_heigth);
+.cards_fishy {
+    width: 100%;
     display: flex;
-    border: none;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 3%;
+}
+
+.card_fishys {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 5%;
     margin-top: 3%;
-    border-radius: var(--input_radius);
-    font-size: var(--font_menu_pc);
-    color: var(--color_black-700);
+
+    flex-wrap: wrap;
+
     background-color: var(--font_graw);
-    padding-left: 5%;
+    border-radius: var(--input_radius);
+    box-shadow: 0px 2px 23px var(--color_black);
+
 }
-
-.main_container .main_inputs .btn_input {
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--input_btn_raduis);
-    background-color: var(--font_color_ligth_hover) !important;
-    color: var(--color_black) !important;
-    font-size: var(--font_button) !important;
-
-    font-family: var(--font);
-}
-
-.main_container .main_inputs .btn_input:hover {
-    cursor: pointer;
-    background-color: var(--bg-btn-hover) !important;
-    color: var(--font_graw) !important;
-}
-
-.main_container .main_inputs .input_pass {
-    display: flex;
+.hed_card_fishys {
     width: 100%;
-    margin-left: 10%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: auto;
+    margin-top: 5%;
+    margin-bottom: 3%;
 }
 
-.main_container .main_inputs .input_pass i {
-    font-size: var(--font_menupc_item);
-    transform: translate(-150%, 45%);
+.hed_card_fishys img {
+    width: 30%;
 }
-
-.main_container .input_pass i:hover {
-    color: var(--font_color_ligth_hover);
-    cursor: pointer;
+.text_card_hed_fishys{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
-
-.main_container .main_inputs .login_text_repass {
+.text_card_hed_fishys .title_hed_card{
+    font-size: var(--font-card-tols-title);
+}
+.text_tip_card{
     width: 90%;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.text_card_hed_fishys .text_tip_card h5{
+    font-size: 0.7vw !important;
+}
+.text_card_hed_fishys .text_tip_card h6{
+    font-size: 0.6vw !important;
+}
+.text_card_hed_fishys .text_tip_card a{
+    font-size: 0.6vw !important;
+}
+.bottom_card_fishys {
+    width: 90%;
+    height: 30%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.bottom_card_fishys p{
+    width: 100%;
+    font-size: 0.9vw;
+}
+.bottom_card_fishys h3{
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-top: 42%;
-
-    font-family: var(--font);
-    font-size: var(--font_text-normal);
+    font-size: 1vw;
 }
-
-.main_container .main_inputs .login_text_repass a {
-    margin-left: 2%;
-    color: var(--font_color_ligth_hover);
-}
-
-.main_container .main_inputs .login_text_repass a:hover {
-    cursor: pointer;
-    color: var(--bg-btn-hover);
-    text-decoration: underline;
-}
-
-
-
-.main_container .main_inputs .cad_text_repass {
+.it_bot{
     width: 90%;
+    height: 20%;
+    margin-left: 5%;
+    margin-bottom: 5%;
+}
+.it_bot a{
     display: flex;
-    justify-content: center;
+    margin-left: 93%;
     align-items: center;
-
-    margin-top: 10%;
-
-    font-family: var(--font);
-    font-size: var(--font_text-normal);
+    font-size: 1.4vw;
 }
+/*           */
 
-.main_container .main_inputs .cad_text_repass a {
-    margin-left: 2%;
-    color: var(--font_color_ligth_hover);
-}
 
-.main_container .main_inputs .cad_text_repass a:hover {
-    cursor: pointer;
-    color: var(--bg-btn-hover);
-    text-decoration: underline;
-}
 
-/*              */
+
+
+
+
+
+
+
 
 
 /*   Tools main  */
@@ -600,3 +581,165 @@ a:hover {
 .tools_supercard .cards_tools .card_tools .card_media_15 {
     background: url("https://www.greenscene.co.id/wp-content/uploads/2020/05/One-Piece-2-696x497.jpg") center/cover;
 }
+
+
+
+/* Login  container */
+.form_main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transform: translate(0px, 10%);
+
+    background-image: url("../img/bg_login_white.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form_main .main_container {
+    width: 35%;
+    margin-left: 40%;
+    border-radius: 5%;
+    margin-top: -3%;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: column;
+    background: var(--font_color_ligth_80);
+    z-index: 3;
+}
+
+.main_container .main_title {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10%;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font);
+}
+
+.main_container form {
+    width: 90%;
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main_container .main_inputs {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: column;
+
+    margin-bottom: 10%;
+}
+
+.main_container .main_inputs input {
+    width: 90%;
+    height: var(--input_heigth);
+    display: flex;
+    border: none;
+    margin-top: 3%;
+    border-radius: var(--input_radius);
+    font-size: var(--font_menu_pc);
+    color: var(--color_black-700);
+    background-color: var(--font_graw);
+    padding-left: 5%;
+}
+
+.main_container .main_inputs .btn_input {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--input_btn_raduis);
+    background-color: var(--font_color_ligth_hover) !important;
+    color: var(--color_black) !important;
+    font-size: var(--font_button) !important;
+
+    font-family: var(--font);
+}
+
+.main_container .main_inputs .btn_input:hover {
+    cursor: pointer;
+    background-color: var(--bg-btn-hover) !important;
+    color: var(--font_graw) !important;
+}
+
+.main_container .main_inputs .input_pass {
+    display: flex;
+    width: 100%;
+    margin-left: 10%;
+}
+
+.main_container .main_inputs .input_pass i {
+    font-size: var(--font_menupc_item);
+    transform: translate(-150%, 45%);
+}
+
+.main_container .input_pass i:hover {
+    color: var(--font_color_ligth_hover);
+    cursor: pointer;
+}
+
+.main_container .main_inputs .login_text_repass {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 42%;
+
+    font-family: var(--font);
+    font-size: var(--font_text-normal);
+}
+
+.main_container .main_inputs .login_text_repass a {
+    margin-left: 2%;
+    color: var(--font_color_ligth_hover);
+}
+
+.main_container .main_inputs .login_text_repass a:hover {
+    cursor: pointer;
+    color: var(--bg-btn-hover);
+    text-decoration: underline;
+}
+
+
+
+.main_container .main_inputs .cad_text_repass {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10%;
+
+    font-family: var(--font);
+    font-size: var(--font_text-normal);
+}
+
+.main_container .main_inputs .cad_text_repass a {
+    margin-left: 2%;
+    color: var(--font_color_ligth_hover);
+}
+
+.main_container .main_inputs .cad_text_repass a:hover {
+    cursor: pointer;
+    color: var(--bg-btn-hover);
+    text-decoration: underline;
+}
+
+/*              */
+
