@@ -2,23 +2,31 @@ from random import randint, random
 from flask import *
 from jinja2 import Environment
 from db import *
-
+from root import *
+userRoot = {}
 db = criarBanco(1)
 auth = criarBanco(2)
-
 anonymus = ""
 pagin = "index"
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-userRoot = {"Nome": "", "Email":"", "Id_User":"", "Descrição":"", "denuncias_curtidas": list(), "ferramentas_curtidas": list()}
 
 app = Flask(__name__)
 app.secret_key = "APK_SESION_IS"
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
+def verific(userRoot):
+    if not session.get("user_name"):
+        userRoot = userR("", "")   
+    else:
+        userRoot = userR("run", session.get("user_name"))
+
 
 @app.route("/")
 @app.route("/index")
-def home(): 
+def home():
+    verific(userRoot)
+
+    print(userRoot["Nome"])
     pagin = "index"
     return render_template("index.html")
 
@@ -26,6 +34,7 @@ def home():
 @app.route("/safety")
 @app.route("/safety/")
 def safety():
+    verific(userRoot)
     pagin = "safety"
     return render_template("safety.html", pagin = pagin)
 
@@ -35,12 +44,15 @@ def safety():
 @app.route("/tools")
 @app.route("/tools/")
 def tools(): 
+    verific(userRoot)
+
     pagin = "tools"
     tool_lik = list()
     tools = list()
     lista_tool = list()
 
-    liked_fer = list()
+    print(userRoot)
+
 
     try:
         if userRoot["Nome"] != "":
@@ -67,9 +79,6 @@ def tools():
         dict_tools["Tool_liked"] = liked_fh
         lista_tool.append(dict_tools)
 
-        if liked_fh == True:
-            liked_fer.append(dict_tools)
-
     dic_tip = {"Tipo_tool": " Anti-Malware", "Valor": lista_tool, "Class_id": "malware"}
 
     tools.append(dic_tip)
@@ -87,14 +96,10 @@ def tools():
         dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"]), "ID_Tool": "" + ferramenta.key()}
         dict_tools["Tool_liked"] = liked_fh
         lista_tool.append(dict_tools)
-        
-        if liked_fh == True:
-            liked_fer.append(dict_tools)
 
     dic_tip = {"Tipo_tool": " Anti-virus", "Valor": lista_tool, "Class_id": "antivirus"}
     tools.append(dic_tip)
 
-    userRoot["ferramentas_curtidas"] = liked_fer
     return render_template("tools.html", tools = tools, pagin=pagin)
 
 @app.route("/tools/add/<id_tol>")
@@ -121,9 +126,9 @@ def tool_deleted(id_tol):
 
 @app.route("/fishys")
 def fishys():
+    verific(userRoot)
     users = list()
     denun = list()
-    liked_denun = list()
 
     usersFish = db.child("denuncias").get()
     try:
@@ -150,10 +155,6 @@ def fishys():
         dict_user["Fishy_liked"] = liked_fh
         users.append(dict_user)
 
-        if liked_fh == True:
-            liked_denun.append(dict_user)
-
-    userRoot["denuncias_curtidas"] = liked_denun
     return render_template("fishys.html", users = users)
 
 @app.route("/fishys/add/<id_den>")
@@ -179,6 +180,7 @@ def fishy_deleted(id_den):
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    verific(userRoot)
     try:
         camps = {"email": "", "pass":""}
         if request.method == 'POST':
@@ -187,18 +189,7 @@ def login():
             try:
                 auth.sign_in_with_email_and_password(name, password)
                 session["user_name"] = request.form["user_email"]
-
-                usersAll = db.child("users").get()
-                for i in usersAll.each():
-                    user = i.val()
-                    if user['Email'] == session['user_name']:
-                        userRoot["Nome"] = user["Nome"]
-                        userRoot["Email"] = user["Email"]
-                        userRoot["Id_User"] = i.key()
-                        userRoot["Descrição"] = user["Descrição"]
-
-
-
+                userR("run", name)
                 return redirect("/")
             except:
                 session["user_name"] = None
@@ -217,13 +208,13 @@ def login():
 def logout():
     session.pop("user_name", default=None)
     session["user_name"] = ""
-    userRoot = {"Nome": "", "Email":"", "Id_User":"", "Descrição":"", "denuncias_curtidas": list(), "ferramentas_curtidas": list()}
-    print(userRoot["Nome"])
+    userR("", "")
     return redirect("/")
 
 
 @app.route("/cadastro", methods=['GET', 'POST'])
 def cadastro():
+    verific(userRoot)
     try:
         confirmed = 0
         camps = {"name": "", "email": "", "pass":"", "pass_conf" : ""}
@@ -271,8 +262,8 @@ def cadastro():
 
 
 @app.route("/profile")
-def edit_profile():
-    print(userRoot["Nome"])
+def profile():
+    verific(userRoot)
     return render_template("profile.html")
 
 
