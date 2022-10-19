@@ -7,9 +7,9 @@
                 <img src="{{ url_for('static', filename='../static/img/personoid_profile.jpg') }}" alt="">
             </div>
             <div class="persona_text">
-                <h1>Name</h1>
-                <h5>Quem sou ?</h5>
-                <p>Eu sou fushisonu um pequeno desenvolvedor</p>
+                <h1>{{profile["Nome"]}}</h1>
+                <h4>Quem sou ?</h4>
+                <p>{{ profile["Descrição"] }}</p>
             </div>
         </div>
         <div class="persona_tabs">
@@ -20,25 +20,49 @@
             </div>
 
             <div class="content_tab dv_active" id="profile">
-                <h2>Profile</h2>
-                <div class="tab_inputs">
-                    <p>Nome</p>
-                    <input type="text" placeholder="Fushisuno" disabled>
-                </div>
-                <div class="tab_inputs">
-                    <p>Email</p>
-                    <input type="text" placeholder="sjakdajk@gmail.com" disabled>
+                <div class="info_tab">
+                    <h2>Perfil</h2>
+                    <div class="tab_inputs">
+                        <p>Nome</p>
+                        <input type="text" placeholder="{{profile['Nome']}}" disabled>
+                    </div>
+                    <div class="tab_inputs">
+                        <p>Email</p>
+                        <input type="text" placeholder="{{ profile['Email'] }}" disabled>
+                    </div>
+                    <div class="tab_inputs">
+                        <p>Descrição</p>
+                        <textarea type="text" placeholder="{{ profile['Descrição'] }}" disabled></textarea>
+                    </div>
+
+                    <div class="tab_inputs">
+                        <button>Editar</button>
+                    </div>
                 </div>
             </div>
 
             <div class="content_tab" id="tools">
                 <h2>Tools</h2>
-                <p>Akkaksdka dasdmamd amsda ha hsd ad abnsabdn abnd ab da sdnba dgavd ad ayg </p>
+                {% for fert in profile["ferramentas_curtidas"] %}
+                <div class="card_tab">
+                    <h2> Nome: {{ fert["Nome"] }}</h2>
+                    <p>Tipo: {{fert["Tipo"]}}</p>
+                    <p>Descrição: {{ fert["Descricao"] }}</p>
+                    <a href="/tools"><button class="card_bottom_action_buttom">Ver Mais</button></a>
+                </div>
+                {% endfor %}
             </div>
 
             <div class="content_tab" id="fishys">
                 <h2>Fishys</h2>
-                <p>Akkaksdka dasdmamd amsda ha hsd ad abnsabdn abnd ab da sdnba dgavd ad ayg </p>
+                {% for fert in profile["denuncias_curtidas"] %}
+                <div class="card_tab">
+                    <h2> Nome: {{ fert["Nome"] }}</h2>
+                    <p>Tipo: {{fert["Tipo"]}}</p>
+                    <p>Descrição: {{ fert["Descricao"] }}</p>
+                    <a href="/tools"><button class="card_bottom_action_buttom">Ver Mais</button></a>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

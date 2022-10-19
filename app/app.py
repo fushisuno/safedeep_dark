@@ -3,7 +3,7 @@ from flask import *
 from jinja2 import Environment
 from db import *
 from root import *
-userRoot = {}
+
 db = criarBanco(1)
 auth = criarBanco(2)
 anonymus = ""
@@ -14,49 +14,40 @@ app = Flask(__name__)
 app.secret_key = "APK_SESION_IS"
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
-def verific(userRoot):
-    if not session.get("user_name"):
-        userRoot = userR("", "")   
-    else:
-        userRoot = userR("run", session.get("user_name"))
-
 
 @app.route("/")
+def initUs():
+    userR(session["user_name"])
+    return redirect("/index")
+
+
 @app.route("/index")
 def home():
-    verific(userRoot)
-
-    print(userRoot["Nome"])
+    print(usRoot["Nome"])
     pagin = "index"
     return render_template("index.html")
+
 
 @app.route("/")
 @app.route("/safety")
 @app.route("/safety/")
 def safety():
-    verific(userRoot)
     pagin = "safety"
     return render_template("safety.html", pagin = pagin)
-
 
 
 @app.route("/")
 @app.route("/tools")
 @app.route("/tools/")
 def tools(): 
-    verific(userRoot)
-
     pagin = "tools"
     tool_lik = list()
     tools = list()
     lista_tool = list()
 
-    print(userRoot)
-
-
     try:
-        if userRoot["Nome"] != "":
-            den = db.child("users").child(userRoot["Id_User"]).child("ferramentas_curtidas").get()
+        if usRoot["Nome"] != "":
+            den = db.child("users").child(usRoot["Id_User"]).child("ferramentas_curtidas").get()
             qtd_den = den.val()
             if qtd_den != None:
                 for fishy_den in den.each():
@@ -106,9 +97,9 @@ def tools():
 def tool_liked(id_tol):
     id_tools_liked = {}
     try:
-        if userRoot["Nome"] != "":
+        if usRoot["Nome"] != "":
             id_tools_liked = {"Id": str(id_tol)}
-            db.child("users").child(userRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).set("Liked")
+            db.child("users").child(usRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).set("Liked")
             return redirect("/tools")
     except:
         return redirect("/login")
@@ -116,24 +107,20 @@ def tool_liked(id_tol):
 
 @app.route("/tools/del/<id_tol>")
 def tool_deleted(id_tol):
-    if userRoot["Nome"] != "":
-        db.child("users").child(userRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).remove()
+    if usRoot["Nome"] != "":
+        db.child("users").child(usRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).remove()
         return redirect("/tools")
     return redirect("/login")
 
 
-
-
 @app.route("/fishys")
 def fishys():
-    verific(userRoot)
     users = list()
     denun = list()
-
     usersFish = db.child("denuncias").get()
     try:
-        if userRoot["Nome"] != "":
-            den = db.child("users").child(userRoot["Id_User"]).child("denuncias_curtidas").get()
+        if usRoot["Nome"] != "":
+            den = db.child("users").child(usRoot["Id_User"]).child("denuncias_curtidas").get()
             qtd_den = den.val()
             if qtd_den != None:
                 for fishy_den in den.each():
@@ -161,26 +148,24 @@ def fishys():
 def fishy_liked(id_den):
     id_fishys_liked = {}
     try:
-        if userRoot["Nome"] != "":
+        if usRoot["Nome"] != "":
             id_fishys_liked = {"Id": str(id_den)}
-            db.child("users").child(userRoot["Id_User"]).child("denuncias_curtidas").child(id_den).set("Liked")
+            db.child("users").child(usRoot["Id_User"]).child("denuncias_curtidas").child(id_den).set("Liked")
             return redirect("/fishys")
     except:
         return redirect("/login")
     return redirect("/login")
 
-
 @app.route("/fishys/del/<id_den>")
 def fishy_deleted(id_den):
-    if userRoot["Nome"] != "":
-        db.child("users").child(userRoot["Id_User"]).child("denuncias_curtidas").child(id_den).remove()
+    if usRoot["Nome"] != "":
+        db.child("users").child(usRoot["Id_User"]).child("denuncias_curtidas").child(id_den).remove()
         return redirect("/fishys")
     return redirect("/login")
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    verific(userRoot)
     try:
         camps = {"email": "", "pass":""}
         if request.method == 'POST':
@@ -189,7 +174,6 @@ def login():
             try:
                 auth.sign_in_with_email_and_password(name, password)
                 session["user_name"] = request.form["user_email"]
-                userR("run", name)
                 return redirect("/")
             except:
                 session["user_name"] = None
@@ -208,13 +192,12 @@ def login():
 def logout():
     session.pop("user_name", default=None)
     session["user_name"] = ""
-    userR("", "")
+    userR("")
     return redirect("/")
 
 
 @app.route("/cadastro", methods=['GET', 'POST'])
 def cadastro():
-    verific(userRoot)
     try:
         confirmed = 0
         camps = {"name": "", "email": "", "pass":"", "pass_conf" : ""}
@@ -262,9 +245,10 @@ def cadastro():
 
 
 @app.route("/profile")
+@app.route("/profile/")
 def profile():
-    verific(userRoot)
-    return render_template("profile.html")
+    userR(session["user_name"])
+    return render_template("profile.html", profile = usRoot)
 
 
 

@@ -1,6 +1,6 @@
 from db import *
-usRoot = {"Nome": "", "Email": "", "Id_User": "", "Descrição": "", "denuncias_curtidas": "", "ferramentas_curtidas": ""}
-
+usRoot = {"Nome": "", "Email": "", "Id_User": "", "Descrição": "", "denuncias_curtidas": list(), "ferramentas_curtidas": list()}
+secssion = ""
 
 def addDenun ():
      db = criarBanco(1)
@@ -85,9 +85,9 @@ def addFer():
      return liked_fer
 
 
-def userR(sit,  var):
+def userR(var): 
      db = criarBanco(1)
-     if(sit != ""):
+     if var != "":
           usersAll = db.child("users").get()
           for i in usersAll.each():
                user = i.val()
@@ -99,4 +99,11 @@ def userR(sit,  var):
                     usRoot["Descrição"] = user["Descrição"]
                     usRoot["denuncias_curtidas"] = addDenun()
                     usRoot["ferramentas_curtidas"] = addFer()
-     return usRoot
+     else:
+          usRoot["Nome"] = ""
+          usRoot["Nome"] = ""
+          usRoot["Email"] = ""
+          usRoot["Id_User"] = ""
+          usRoot["Descrição"] = ""
+          usRoot["denuncias_curtidas"] = ""
+          usRoot["ferramentas_curtidas"] = ""
