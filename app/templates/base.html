@@ -23,13 +23,25 @@
             <li class="item"><a href="/fishys">Fishy</a></li>
         </ul>
         <div class="buttons_index">
+            {% if session.user_name %}
+            <a href="/profile" class="uil uil-user"></a>
+            {% else %}
             <a href="/login" class="uil uil-user"></a>
+            {% endif %}
+           
             <a class="uil uil-bug"></a>
+            {% if session.user_name %}
+                <a href="/logout" class="uil uil-sign-out-alt"></a>
+            {% endif %}
 
         </div>
     </header>
 
     {% block content %}
     {% endblock %}
+
+
+    <script src="{{ url_for('static', filename='../static/js/main.js') }}"></script>
 </body>
+
 </html>

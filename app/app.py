@@ -1,26 +1,15 @@
 from random import randint, random
 from flask import *
 from jinja2 import Environment
+from db import *
 
-import pyrebase
-import re
-config = {
-  "apiKey": "AIzaSyAfJZyTi1WtVKy62SytAGbQyd2TaPCWn6A",
-  "authDomain": "safedeep-9c030.firebaseapp.com",
-  "databaseURL": "https://safedeep-9c030-default-rtdb.firebaseio.com",
-  "projectId": "safedeep-9c030",
-  "storageBucket": "safedeep-9c030.appspot.com",
-  "messagingSenderId": "325692084824",
-  "appId": "1:325692084824:web:3ce03fcce1a9fd2286f02d"
-}
+db = criarBanco(1)
+auth = criarBanco(2)
 
-firebase = pyrebase.initialize_app(config)
-
-db = firebase.database()
-auth = firebase.auth()
 anonymus = ""
 pagin = "index"
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+userRoot = {"Nome": "", "Email":"", "Id_User":"", "Descrição":"", "denuncias_curtidas": list(), "ferramentas_curtidas": list()}
 
 app = Flask(__name__)
 app.secret_key = "APK_SESION_IS"
@@ -45,28 +34,87 @@ def safety():
 @app.route("/")
 @app.route("/tools")
 @app.route("/tools/")
-def tools():
+def tools(): 
     pagin = "tools"
+    tool_lik = list()
     tools = list()
     lista_tool = list()
+
+    liked_fer = list()
+
+    try:
+        if userRoot["Nome"] != "":
+            den = db.child("users").child(userRoot["Id_User"]).child("ferramentas_curtidas").get()
+            qtd_den = den.val()
+            if qtd_den != None:
+                for fishy_den in den.each():
+                    nun = fishy_den.key()
+                    tool_lik.append(nun)
+    except:
+        tool_lik = list()
+
+    liked_fh = False  
+
     usersAll = db.child("ferramentas").child("antimalware").get()
     for ferramenta in usersAll.each():
         tool = ferramenta.val()
-        dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"])}
+        if len(tool_lik) > 0:
+            if ferramenta.key() in tool_lik:
+                    liked_fh = True
+            else:
+                liked_fh = False 
+        dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"]), "ID_Tool": "" + ferramenta.key()}
+        dict_tools["Tool_liked"] = liked_fh
         lista_tool.append(dict_tools)
+
+        if liked_fh == True:
+            liked_fer.append(dict_tools)
+
     dic_tip = {"Tipo_tool": " Anti-Malware", "Valor": lista_tool, "Class_id": "malware"}
+
     tools.append(dic_tip)
 
     lista_tool = list()
+    liked_fh = False   
     usersAll = db.child("ferramentas").child("antivirus").get()
     for ferramenta in usersAll.each():
         tool = ferramenta.val()
-        dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"])}
+        if len(tool_lik) > 0:
+            if ferramenta.key() in tool_lik:
+                    liked_fh = True
+            else:
+                liked_fh = False 
+        dict_tools = {"Nome": tool["Nome"], "Tipo": tool["Tipo"], "Title":  tool["Title"], "Descricao":  tool["Descricao"], "Media_img": "card_media_" + str(tool["Id_media"]), "ID_Tool": "" + ferramenta.key()}
+        dict_tools["Tool_liked"] = liked_fh
         lista_tool.append(dict_tools)
+        
+        if liked_fh == True:
+            liked_fer.append(dict_tools)
+
     dic_tip = {"Tipo_tool": " Anti-virus", "Valor": lista_tool, "Class_id": "antivirus"}
     tools.append(dic_tip)
 
+    userRoot["ferramentas_curtidas"] = liked_fer
     return render_template("tools.html", tools = tools, pagin=pagin)
+
+@app.route("/tools/add/<id_tol>")
+def tool_liked(id_tol):
+    id_tools_liked = {}
+    try:
+        if userRoot["Nome"] != "":
+            id_tools_liked = {"Id": str(id_tol)}
+            db.child("users").child(userRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).set("Liked")
+            return redirect("/tools")
+    except:
+        return redirect("/login")
+    return redirect("/login")
+
+@app.route("/tools/del/<id_tol>")
+def tool_deleted(id_tol):
+    if userRoot["Nome"] != "":
+        db.child("users").child(userRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).remove()
+        return redirect("/tools")
+    return redirect("/login")
 
 
 
@@ -75,21 +123,19 @@ def tools():
 def fishys():
     users = list()
     denun = list()
+    liked_denun = list()
+
     usersFish = db.child("denuncias").get()
-    usersAll = db.child("users").get()
-    for i in usersAll.each():
-        user = i.val()
-        user_valid = user['Email']
-        try:
-            if user_valid == session["user_name"]:
-                den = db.child("users").child(i.key()).child("denuncias_curtidas").get()
-                qtd_den = den.val()
-                if qtd_den != None:
-                    for fishy_den in den.each():
-                        nun = fishy_den.key()
-                        denun.append(nun)
-        except:
-            denun = list()
+    try:
+        if userRoot["Nome"] != "":
+            den = db.child("users").child(userRoot["Id_User"]).child("denuncias_curtidas").get()
+            qtd_den = den.val()
+            if qtd_den != None:
+                for fishy_den in den.each():
+                    nun = fishy_den.key()
+                    denun.append(nun)
+    except:
+        denun = list()
 
     for i in usersFish.each():
         user = i.val()
@@ -103,36 +149,32 @@ def fishys():
             dict_user = {"Nome": user['nome'], "Tipo": user['opcao'], "Url": user['url_site'], "Descricao": user['descricao'], "ID_Fishy": "" + i.key()}
         dict_user["Fishy_liked"] = liked_fh
         users.append(dict_user)
-    
+
+        if liked_fh == True:
+            liked_denun.append(dict_user)
+
+    userRoot["denuncias_curtidas"] = liked_denun
     return render_template("fishys.html", users = users)
 
 @app.route("/fishys/add/<id_den>")
 def fishy_liked(id_den):
     id_fishys_liked = {}
-    usersAll = db.child("users").get()
-    for i in usersAll.each():
-        user = i.val()
-        user_valid = user['Email']
-        if user_valid == session['user_name']:
+    try:
+        if userRoot["Nome"] != "":
             id_fishys_liked = {"Id": str(id_den)}
-            db.child("users").child(i.key()).child("denuncias_curtidas").child(id_den).set("Liked")
+            db.child("users").child(userRoot["Id_User"]).child("denuncias_curtidas").child(id_den).set("Liked")
             return redirect("/fishys")
+    except:
+        return redirect("/login")
     return redirect("/login")
 
 
 @app.route("/fishys/del/<id_den>")
 def fishy_deleted(id_den):
-    usersAll = db.child("users").get()
-    for i in usersAll.each():
-        user = i.val()
-        user_valid = user['Email']
-        if user_valid == session['user_name']:
-            db.child("users").child(i.key()).child("denuncias_curtidas").child(id_den).remove()
-            return redirect("/fishys")
+    if userRoot["Nome"] != "":
+        db.child("users").child(userRoot["Id_User"]).child("denuncias_curtidas").child(id_den).remove()
+        return redirect("/fishys")
     return redirect("/login")
-
-
-
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -145,6 +187,18 @@ def login():
             try:
                 auth.sign_in_with_email_and_password(name, password)
                 session["user_name"] = request.form["user_email"]
+
+                usersAll = db.child("users").get()
+                for i in usersAll.each():
+                    user = i.val()
+                    if user['Email'] == session['user_name']:
+                        userRoot["Nome"] = user["Nome"]
+                        userRoot["Email"] = user["Email"]
+                        userRoot["Id_User"] = i.key()
+                        userRoot["Descrição"] = user["Descrição"]
+
+
+
                 return redirect("/")
             except:
                 session["user_name"] = None
@@ -159,6 +213,14 @@ def login():
         return "Error"
 
 
+@app.route("/logout")
+def logout():
+    session.pop("user_name", default=None)
+    session["user_name"] = ""
+    userRoot = {"Nome": "", "Email":"", "Id_User":"", "Descrição":"", "denuncias_curtidas": list(), "ferramentas_curtidas": list()}
+    print(userRoot["Nome"])
+    return redirect("/")
+
 
 @app.route("/cadastro", methods=['GET', 'POST'])
 def cadastro():
@@ -170,7 +232,7 @@ def cadastro():
             user_email = "" + request.form["user_email"]
             user_password = "" + request.form["user_password"]
             user_confirmed_pass = "" + request.form["confirmed_password"]
-            dados = { "Nome": request.form["user_name"], "Email": request.form["user_email"]}
+            dados = { "Nome": request.form["user_name"], "Email": request.form["user_email"], "Descrição": ""}
             if len(user_name) < 4:
                 camps['name'] = "camp_invalid"
             else:
@@ -208,5 +270,13 @@ def cadastro():
         return "Error"
 
 
+@app.route("/profile")
+def edit_profile():
+    print(userRoot["Nome"])
+    return render_template("profile.html")
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+

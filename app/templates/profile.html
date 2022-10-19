@@ -1,0 +1,47 @@
+{% extends "base.html"%}
+{% block content %}
+<main class="profile_main">
+    <div class="profile_content">
+        <div class="persona_itens">
+            <div class="persona_img">
+                <img src="{{ url_for('static', filename='../static/img/personoid_profile.jpg') }}" alt="">
+            </div>
+            <div class="persona_text">
+                <h1>Name</h1>
+                <h5>Quem sou ?</h5>
+                <p>Eu sou fushisonu um pequeno desenvolvedor</p>
+            </div>
+        </div>
+        <div class="persona_tabs">
+            <div class="tab_menu">
+                <button class="tab_btn bt_activate" onclick="abrirTab(event, 'profile')">Profile</button>
+                <button class="tab_btn" onclick="abrirTab(event, 'tools')">Tools</button>
+                <button class="tab_btn" onclick="abrirTab(event, 'fishys')">Fishys</button>
+            </div>
+
+            <div class="content_tab dv_active" id="profile">
+                <h2>Profile</h2>
+                <div class="tab_inputs">
+                    <p>Nome</p>
+                    <input type="text" placeholder="Fushisuno" disabled>
+                </div>
+                <div class="tab_inputs">
+                    <p>Email</p>
+                    <input type="text" placeholder="sjakdajk@gmail.com" disabled>
+                </div>
+            </div>
+
+            <div class="content_tab" id="tools">
+                <h2>Tools</h2>
+                <p>Akkaksdka dasdmamd amsda ha hsd ad abnsabdn abnd ab da sdnba dgavd ad ayg </p>
+            </div>
+
+            <div class="content_tab" id="fishys">
+                <h2>Fishys</h2>
+                <p>Akkaksdka dasdmamd amsda ha hsd ad abnsabdn abnd ab da sdnba dgavd ad ayg </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

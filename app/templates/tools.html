@@ -21,6 +21,11 @@
                         <p class="bottom_desc_tool">{{ toolss["Descricao"] }}</p>
                         <div class="item_card_bottom">
                             <a href=""><button class="card_bottom_action_buttom">Ver Mais</button></a>
+                            {% if toolss['Tool_liked'] == True %}
+                            <a href="/tools/del/{{ toolss['ID_Tool'] }}" class="uil uil-thumbs-up star_tol" style="color: #1196fc;"></a>
+                            {% else %}
+                            <a href="/tools/add/{{ toolss['ID_Tool'] }}" class="uil uil-star star_tol" style="color: #1196fc;"></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
