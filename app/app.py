@@ -3,6 +3,8 @@ from flask import *
 from jinja2 import Environment
 from db import *
 from root import *
+from sessionUser import *
+
 
 db = criarBanco(1)
 auth = criarBanco(2)
@@ -16,14 +18,8 @@ app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
 
 @app.route("/")
-def initUs():
-    userR(session["user_name"])
-    return redirect("/index")
-
-
 @app.route("/index")
 def home():
-    print(usRoot["Nome"])
     pagin = "index"
     return render_template("index.html")
 
@@ -46,8 +42,8 @@ def tools():
     lista_tool = list()
 
     try:
-        if usRoot["Nome"] != "":
-            den = db.child("users").child(usRoot["Id_User"]).child("ferramentas_curtidas").get()
+        if session["user_name"] != "":
+            den = db.child("users").child(session["user_key"]).child("ferramentas_curtidas").get()
             qtd_den = den.val()
             if qtd_den != None:
                 for fishy_den in den.each():
@@ -97,30 +93,32 @@ def tools():
 def tool_liked(id_tol):
     id_tools_liked = {}
     try:
-        if usRoot["Nome"] != "":
+        if session["user_name"]  != "":
             id_tools_liked = {"Id": str(id_tol)}
-            db.child("users").child(usRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).set("Liked")
+            db.child("users").child(session["user_key"]).child("ferramentas_curtidas").child(id_tol).set("Liked")
             return redirect("/tools")
     except:
-        return redirect("/login")
-    return redirect("/login")
+        return render_template("login.html")
+    return render_template("login.html")
 
 @app.route("/tools/del/<id_tol>")
 def tool_deleted(id_tol):
-    if usRoot["Nome"] != "":
-        db.child("users").child(usRoot["Id_User"]).child("ferramentas_curtidas").child(id_tol).remove()
+    if session["user_name"]  != "":
+        db.child("users").child(session["user_key"]).child("ferramentas_curtidas").child(id_tol).remove()
         return redirect("/tools")
-    return redirect("/login")
+    return render_template("login.html")
 
 
 @app.route("/fishys")
 def fishys():
+    
+    usRoot["denuncias_curtidas"] = addDenun()
     users = list()
     denun = list()
     usersFish = db.child("denuncias").get()
     try:
-        if usRoot["Nome"] != "":
-            den = db.child("users").child(usRoot["Id_User"]).child("denuncias_curtidas").get()
+        if session["user_name"]  != "":
+            den = db.child("users").child(session["user_key"]).child("denuncias_curtidas").get()
             qtd_den = den.val()
             if qtd_den != None:
                 for fishy_den in den.each():
@@ -148,20 +146,20 @@ def fishys():
 def fishy_liked(id_den):
     id_fishys_liked = {}
     try:
-        if usRoot["Nome"] != "":
+        if session["user_name"]  != "":
             id_fishys_liked = {"Id": str(id_den)}
-            db.child("users").child(usRoot["Id_User"]).child("denuncias_curtidas").child(id_den).set("Liked")
+            db.child("users").child(session["user_key"]).child("denuncias_curtidas").child(id_den).set("Liked")
             return redirect("/fishys")
     except:
-        return redirect("/login")
-    return redirect("/login")
+        return render_template("login.html")
+    return render_template("login.html")
 
 @app.route("/fishys/del/<id_den>")
 def fishy_deleted(id_den):
-    if usRoot["Nome"] != "":
-        db.child("users").child(usRoot["Id_User"]).child("denuncias_curtidas").child(id_den).remove()
+    if session["user_name"]  != "":
+        db.child("users").child(session["user_key"]).child("denuncias_curtidas").child(id_den).remove()
         return redirect("/fishys")
-    return redirect("/login")
+    return render_template("login.html")
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -173,12 +171,11 @@ def login():
             password = request.form['password']
             try:
                 auth.sign_in_with_email_and_password(name, password)
-                session["user_name"] = request.form["user_email"]
-                return redirect("/")
+                session["user_name"] = name
+                session["user_key"] = searchUserKey(name)
+                return render_template("index.html")
             except:
-                session["user_name"] = None
                 camps['email'] = "camp_invalid"
-                session["name"] = None
                 camps['pass'] = "camp_invalid"
             
                 return render_template("login.html", camps=camps)
@@ -191,8 +188,8 @@ def login():
 @app.route("/logout")
 def logout():
     session.pop("user_name", default=None)
-    session["user_name"] = ""
-    userR("")
+    session.pop("user_key", default=None)
+
     return redirect("/")
 
 
@@ -231,13 +228,12 @@ def cadastro():
                     try:
                         auth.create_user_with_email_and_password(user_email, user_password)
                         id_us = db.generate_key()
-                        print("criou")
                         db.child("users").child(id_us).set(dados)
                         db.child("users").child(id_us).child("denuncias_curtidas").set("")
 
                     except:
-                        return redirect('/login')
-                    return redirect("/login")
+                        return render_template("login.html")
+                    return render_template("login.html")
 
         return render_template("cadastro.html", camps = camps)
     except:

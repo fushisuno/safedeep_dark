@@ -1,6 +1,5 @@
 from db import *
 usRoot = {"Nome": "", "Email": "", "Id_User": "", "Descrição": "", "denuncias_curtidas": list(), "ferramentas_curtidas": list()}
-secssion = ""
 
 def addDenun ():
      db = criarBanco(1)
@@ -87,23 +86,14 @@ def addFer():
 
 def userR(var): 
      db = criarBanco(1)
-     if var != "":
-          usersAll = db.child("users").get()
-          for i in usersAll.each():
-               user = i.val()
-               if user['Email'] == var:
-                    usRoot["Nome"] = user["Nome"]
-                    usRoot["Nome"] = user["Nome"]
-                    usRoot["Email"] = user["Email"]
-                    usRoot["Id_User"] = i.key()
-                    usRoot["Descrição"] = user["Descrição"]
-                    usRoot["denuncias_curtidas"] = addDenun()
-                    usRoot["ferramentas_curtidas"] = addFer()
-     else:
-          usRoot["Nome"] = ""
-          usRoot["Nome"] = ""
-          usRoot["Email"] = ""
-          usRoot["Id_User"] = ""
-          usRoot["Descrição"] = ""
-          usRoot["denuncias_curtidas"] = ""
-          usRoot["ferramentas_curtidas"] = ""
+     usersAll = db.child("users").get()
+     for i in usersAll.each():
+          user = i.val()
+          if user['Email'] == var:
+               usRoot["Nome"] = user["Nome"]
+               usRoot["Nome"] = user["Nome"]
+               usRoot["Email"] = user["Email"]
+               usRoot["Id_User"] = i.key()
+               usRoot["Descrição"] = user["Descrição"]
+               usRoot["denuncias_curtidas"] = addDenun()
+               usRoot["ferramentas_curtidas"] = addFer()
