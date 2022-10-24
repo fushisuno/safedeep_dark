@@ -298,13 +298,34 @@ a:hover {
 /*   Safety   Main    */
 .safety_main {
     width: 100%;
-    height: 100%;
 
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: translate(0%, 10vh);
 }
+.safety_main .safety_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
+    font-family: var(--font);
+
+    color: var(--font_color_ligth);
+}
+.safety_main .safety_container .title_safety{
+        font-size: var(--font_button);
+}
+.safety_main .safety_container .text_safety{
+    width: 90%;
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    justify-content: center;
+    align-items: center;
+}
 
 
 

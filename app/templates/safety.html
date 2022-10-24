@@ -1,6 +1,25 @@
 {% extends "base.html"%}
 {% block content %}
 <main class="safety_main">
-
+    <div class="safety_container">
+        <div class="title_safety">
+            <h1> Segurança da Informação </h1>
+        </div>
+        <div class="text_safety">
+            <p>Segurança da Informação, é uma área que estuda praticas focadas em proteger os dados, tanto de indivíduos
+                comuns, quanto de empresas, entidades e comunidades. Todos esperamos manter nossos dados
+                privados,seguros e mantidos sem que possam ser acessado por usuários não autorizados.</p>
+            <p>Porém nos dias atuais temos alguns problemas, pois com tantas falhas no mundo cibernético necessita-se
+                maior cuidados com os próprios dados, com isso é de suma importância que tomem-se cuidados com o que é
+                acessado e para quem os dados são transmitidos.
+            </p>
+            <p>Portanto a segurança da informação estabelece alguns pilares que são utilizados para garantir a ordem e a
+                segurança dos dados. <br> Sendo elas:</p>
+        </div>
+        <div class="img_confid" style="width: 80%; margin-top: 2%;">
+            <img src="{{ url_for('static', filename='../static/img/paste_secret.png')}}" alt=""
+                style="opacity: 80%; width: 30%; justify-content: left;">
+        </div>
+    </div>
 </main>
 {% endblock %}
