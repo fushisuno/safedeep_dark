@@ -570,7 +570,8 @@ a:hover {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 3%;
+    flex-wrap: wrap;
+    margin-bottom: 2%;
 }
 
 .card_fishys {
@@ -675,6 +676,137 @@ a:hover {
     color: var(--font-color-al_blue);
     cursor: pointer;
 }
+
+
+.main_fishy {
+    width: 100%;
+    transform: translate(0px, 10vh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+}
+.hed_fishy {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    font-family: var(--font);
+}
+
+.hed_fishy .title_fishy {
+    font-size: var(--font_button);
+    letter-spacing: 5px;
+    margin-bottom: 2%;
+}
+
+.form_fishy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    height: auto;
+    color: var(--font_color_ligth);
+    border-radius: 15px;
+    width: 60%;
+    padding: 35px;
+
+    font-family: var(--font);
+    font-weight: bold;
+}
+
+.form_fishy form {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.iem_form_fishy {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    
+}
+
+.iem_form_fishy label {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6vw;
+    letter-spacing: 2px;
+}
+
+.op_denuncia {
+    appearance: none;
+    -webkit-appearance: none !important;
+    -moz-appearance: none;
+    -webkit-border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border: 0px;
+    font-size: 15px;
+    padding-left: 15px;
+    outline: none;
+    background-color: #575757;
+    color: var(--font_color_ligth);
+    border-radius: 8px;
+    height: 50px;
+    width: 100%;
+    font-family: "Poppin", sans-serif;
+}
+
+.description_fishy {
+    width: 100%;
+    margin-top: 5px;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    text-decoration: none;
+    border: 0px;
+    border-radius: 8px;
+    background-color: #575757;
+    color: var(--font_color_ligth);
+    resize: none;
+}
+
+.form_fishy form .iem_form_fishy input {
+    border: 0px;
+    font-size: 20px;
+    color: var(--font_color_ligth);
+    font-size: 15px;
+    height: 50px;
+    width: 100%;
+    outline: none;
+    padding-left: 15px;
+    border-radius: 8px;
+    background-color: #575757;
+}
+
+.btn_fishy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px !important;
+    letter-spacing: 2px;
+    background-color: #7c1cf2 !important;
+}
+
+.btn_fishy:hover {
+    background-color: #6419be !important;
+    cursor: pointer;
+}
+
 
 /*           */
 

@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+{% block content %}
+<header></header>
+<main class="main_fishy">
+    <section class="main_container">
+        <div class="main_title">
+            <h1>Sign In</h1>
+        </div>
+        
+    </section>
+</main>
+
+
+
+<main class="main_fishy">
+    <div class="hed_fishy">
+        <div class="title_fishy">
+            <h1 class="title_safety_txt  tit_h1">Denuncia</h1>
+        </div>
+        <div class="form_fishy">
+            <form action="/fishy" method="post">
+                <div class="iem_form_fishy">
+                    <label for=""> Nome</label>
+                    <input type="text"  class="inpt" placeholder="{{anonymus}}" name="name_fishy" disabled>
+                </div>
+
+                <div class="iem_form_fishy">
+                    <label for=""> Opção de denuncia</label>
+                    <select name="op_fishy" id="op_denuncia" class="op_denuncia inpt">
+                        <option value="invasor">Invasor</option>
+                        <option value="site_malicioso">Site Malicioso</option>
+                    </select>
+                </div>
+                
+                <div class="iem_form_fishy">
+                    <input type="text" placeholder="URL ou Nome do Usuário Invasor" name="link_name" class="inpt">
+                </div>
+
+                <div class="iem_form_fishy">
+                    <label for=""> Descrição</label>
+                    <textarea name="description_fishy" id="description" cols="40" rows="10"
+                        class="description_fishy"></textarea>
+                </div>
+
+                <div class="iem_form_fishy">
+                    <input type="submit" value="Entrar" class="btn_fishy">
+                </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -108,6 +108,25 @@ def tool_deleted(id_tol):
         return redirect("/tools")
     return render_template("login.html")
 
+@app.route("/fishy")
+@app.route("/fishy", methods=["GET", "POST"])
+def fishy(): 
+    pagin = "fishy"
+    op = randint(0, 90000)
+    anonymus = "anonymus_" + str(op)
+    ops_input = ""
+    if request.method == "POST":
+        if str(request.form.get("op_fishy")) == "invasor":    
+            ops_input = "invasor"
+        else:
+            ops_input = "url_site"
+
+        fishy = {"nome": anonymus, "opcao": str(request.form.get('op_fishy')), ops_input : request.form['link_name'], "descricao": request.form['description_fishy'] }
+
+        db.child("denuncias").child(db.generate_key()).set(fishy)
+        return redirect("/fishy")
+
+    return render_template("fishy.html", anonymus=anonymus, pagin = pagin)
 
 @app.route("/fishys")
 def fishys():
